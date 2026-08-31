@@ -1,0 +1,22 @@
+;; vp-grid.lsp - Create a grid of viewports on the current layout
+;; Command: VPGrid
+;; Usage: APPLOAD -> VPGrid -> rows -> columns -> drawing extents fill the grid
+(defun c:VPGrid ( / rows cols i j x0 y0 w h vp )
+  (setq rows (getint "\nRows: "))
+  (setq cols (getint "\nColumns: "))
+  (setq x0 10.0 y0 10.0 w 50.0 h 30.0)
+  (setq i 0)
+  (while (< i rows)
+    (setq j 0)
+    (while (< j cols)
+      (setq vp (list (+ x0 (* j w)) (+ y0 (* i h)) 0.0))
+      (command "_.MVIEW" vp (list (+ x0 (* j w) w) (+ y0 (* i h) h) 0.0))
+      (setq j (1+ j))
+    )
+    (setq i (1+ i))
+  )
+  (princ (strcat "\nCreated " (itoa (* rows cols)) " viewports."))
+  (princ)
+)
+(princ "\nvp-grid.lsp loaded. Type VPGrid to run.")
+(princ)
